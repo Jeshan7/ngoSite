@@ -1,0 +1,92 @@
+Mongoose
+-------------
+
+It is used for data odelling in Node for mongodb
+
+------------------------------------------------------
+
+In app.js file
+
+var mongoose = require('mongoose') 
+mongoose.connect('http://localhost/')
+-------------------------------------------------------
+
+------------------------------------------------------
+In Schema file
+
+var mongoose = require('mongoose')
+var Schema = mongosoe.Schema;
+
+var someSchema = new Schema({
+	title: String
+	date: {type: Date, default: Date.now }
+
+})
+------------------------------------------------------
+Each key in our code blogSchema defines a property in our documents which will be cast to its associated SchemaType
+
+For example, we've defined a property title which will be cast to the String SchemaType and property date which will be cast to a Date SchemaType. Keys may also be assigned nested objects containing further key/type definitions like the meta property above.
+
+After that schema is passes to model
+
+var Some = mongoose.model('Some', someSchema)
+
+Schema types
+
+String
+Number
+Date
+Buffer
+Boolean
+Mixed
+ObjectId
+Array
+Decimal128
+Map
+
+We can dclare schema types in two ways
+
+var schema1 = new Schema({
+  test: String // `test` is a path of type String
+});
+
+var schema2 = new Schema({
+  // The `test` object contains the "SchemaType options"
+  test: { type: String } // `test` is a path of type string
+  test: [String]
+});
+
+There are certain options which apply for all schema types, and some that apply for specific schema types.
+
+required: boolean or function, if true adds a required validator for this property
+default: Any or function, sets a default value for the path. If the value is a function, the return value of the function is used as the default.
+select: boolean, specifies default projections for queries
+validate: function, adds a validator function for this property
+get: function, defines a custom getter for this property using Object.defineProperty().
+set: function, defines a custom setter for this property using Object.defineProperty().
+alias: string, mongoose >= 4.10.0 only. Defines a virtual with the given name that gets/sets this path.
+
+
+Indexing
+--------
+index: boolean, whether to define an index on this property.
+unique: boolean, whether to define a unique index on this property.
+sparse: boolean, whether to define a sparse index on this property.
+
+
+String
+lowercase: boolean, whether to always call .toLowerCase() on the value
+uppercase: boolean, whether to always call .toUpperCase() on the value
+trim: boolean, whether to always call .trim() on the value
+match: RegExp, creates a validator that checks if the value matches the given regular expression
+enum: Array, creates a validator that checks if the value is in the given array.
+minlength: Number, creates a validator that checks if the value length is not less than the given number
+maxlength: Number, creates a validator that checks if the value length is not greater than the given number
+
+Number
+min: Number, creates a validator that checks if the value is greater than or equal to the given minimum.
+max: Number, creates a validator that checks if the value is less than or equal to the given maximum.
+
+Date
+min: Date
+max: Date
