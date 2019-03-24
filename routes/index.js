@@ -14,32 +14,43 @@ router.post('/donate',(req,res,next)=>{
     stationary_quantity: req.body.stationary_count
     });
 
+
   donate.save(function (err, Donate) {
     if (err)
       return console.log(err);
     else{
+      gen_sum();
       res.send("Done!!!")
-    }
-  })
-
-  var x = Donate.aggregate([
-    {$group: {
-      _id: '$books_quantity',
-      count: {$sum: 1}
-    }
      }
-   ], function (err, result) {
-      if(err) {
-        next(err)
-      }else {
-        res.send(result)
-      }
-    })
-    //console.log(result)
-})
+   })
+ })
 
 router.get('/feed', (req, res) =>{
    res.render('feed', {})
 })
+
+var gen_sum = function() {
+  Donate.aggregate([{
+    $group: {
+      _id: '',
+      books_quantity: { $sum: '$books_quantity' },
+      stationary_quantity: { $sum: '$stationary_quantity' },
+      clothes_quantity: { $sum: '$clothes_quantity' }
+    }
+  }, {
+    $project: {
+      _id: 0,
+      books_quantity: '$books_quantity',
+      stationary_quantity: '$stationary_quantity',
+      clothes_quantity: '$clothes_quantity'
+     }
+   }
+ ], function (err, result) {
+  if(err)
+    return next(err)
+  else
+    return console.log(result)
+  })
+}
 
 module.exports = router
