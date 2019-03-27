@@ -7,6 +7,8 @@ router.get('/donate', (req, res) => {
   res.render('donate', {})
 })
 
+let RES = null;
+
 router.post('/donate',(req,res,next)=>{
   const donate = new Donate({
     books_quantity: req.body.book_count,
@@ -19,17 +21,12 @@ router.post('/donate',(req,res,next)=>{
     if (err)
       return console.log(err);
     else{
-      gen_sum();
-      res.send("Done!!!")
-     }
+      res.send("done!!")
+      }
    })
  })
 
 router.get('/feed', (req, res) =>{
-   res.render('feed', {})
-})
-
-var gen_sum = function() {
   Donate.aggregate([{
     $group: {
       _id: '',
@@ -49,8 +46,9 @@ var gen_sum = function() {
   if(err)
     return next(err)
   else
-    return console.log(result)
+    res.send(result)
   })
-}
+
+})
 
 module.exports = router
